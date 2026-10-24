@@ -60,7 +60,7 @@ ssh root@<tablet> systemctl restart xochitl
 ```
 
 `add_templates.py` is idempotent. A firmware update replaces the system partition, so re-run the install afterwards.
-For other grades, add entries to `templates/manifest.json` (the `make_trace_sheets.py` output prints `filename<TAB>name` lines).
+Generating with `--manifest` registers each page in `templates/manifest.json`, so any grade you build is picked up by `add_templates.py`.
 
 ## Status
 
