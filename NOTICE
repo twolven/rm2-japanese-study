@@ -1,0 +1,8 @@
+This project builds on data from the Electronic Dictionary Research and Development Group (EDRDG):
+
+  JMdict    https://www.edrdg.org/jmdict/j_jmdict.html
+  KANJIDIC2 https://www.edrdg.org/kanjidic/kanjd2index_legacy.html
+
+Both are licensed under the Creative Commons Attribution-ShareAlike 4.0 license
+(https://www.edrdg.org/edrdg/licence.html). The scripts in this repository only convert the
+upstream files; dictionaries produced from them remain under CC BY-SA 4.0.
