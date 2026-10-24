@@ -4,15 +4,15 @@ Tools for studying Japanese on a reMarkable 2 running [xovi](https://github.com/
 [AppLoad](https://github.com/asivery/rm-appload) + [KOReader](https://github.com/koreader/koreader):
 
 - **Dictionaries for KOReader tap-to-lookup** — build StarDict files from the official EDRDG data
-  - `build_jmdict_stardict.py` — JMdict (words, ~219k entries)
+  - `build_jmdict_stardict.py` — JMdict (words, ~219k entries; common words first, ★-marked)
   - `build_kanjidic_stardict.py` — KANJIDIC2 (single kanji: on/kun readings, meanings, strokes, grade, JLPT)
 - **Notebook templates** (1404×1872 grayscale PNG, the rM2 resolution)
   - kana practice grid (large squares, dashed centre guides)
   - genkō yōshi manuscript paper (20×20 with centre gutter)
-  - tracing sheets: hiragana, katakana, and kanji by school grade (dark model → faint trace → blank, with guides)
+  - stroke-order tracing sheets: hiragana, katakana, and kanji by school grade (model with stroke numbers → faint trace → blank)
 - **Setup notes** for the xovi / Vellum / KOReader stack on firmware 3.25.x — [docs/SETUP.md](docs/SETUP.md)
 
-Pre-rendered templates for hiragana, katakana and grade-1 kanji are in [`templates/`](templates/).
+Pre-rendered templates (kana, voiced kana, kanji grades 1–6) are in [`templates/`](templates/).
 The dictionaries are not committed (they are built from upstream data, see below).
 
 ## Requirements
@@ -33,17 +33,21 @@ KOReader's bundled Japanese plugin handles deinflection (食べました → 食
 
 ## Build templates
 
-You need a Japanese font (e.g. [Noto Sans CJK JP](https://github.com/notofonts/noto-cjk), SIL OFL; not included).
+Stroke shapes and stroke order come from [KanjiVG](https://kanjivg.tagaini.net) (CC BY-SA 3.0).
+Download the **`kanjivg-*-main.zip`** asset from the [latest release](https://github.com/KanjiVG/kanjivg/releases/latest)
+(the combined `.xml.gz` has no stroke-number positions). `--font` is only used for the small stroke numbers; any font with digits works.
 
 ```sh
 python scripts/make_practice_grids.py templates/                       # kana grid + genkō yōshi
-python scripts/make_trace_sheets.py --font NotoSansCJKjp-Regular.otf --out templates --set hiragana
-python scripts/make_trace_sheets.py --font NotoSansCJKjp-Regular.otf --out templates --set katakana
-python scripts/make_trace_sheets.py --font NotoSansCJKjp-Regular.otf --out templates \
-        --set kanji --grade 2 --kanjidic kanjidic2.xml.gz               # grades 1–6, 8
+K="--kanjivg kanjivg-main.zip --font NotoSansCJKjp-Regular.otf --out templates --manifest templates/manifest.json"
+python scripts/make_trace_sheets.py $K --set hiragana
+python scripts/make_trace_sheets.py $K --set katakana                  # also: hiragana-voiced, katakana-voiced
+python scripts/make_trace_sheets.py $K --set kanji --grade 2 --kanjidic kanjidic2.xml.gz   # grades 1-6, 8
 ```
 
-Sets also include `hiragana-voiced` and `katakana-voiced`. Kanji sheets are ordered by stroke count.
+Each page: two characters per row, each as *[model with stroke-order numbers] [faint trace] [blank]*.
+Kanji are ordered by stroke count within a grade. Pages are posterized to 16 gray levels (the rM2 panel depth), ~60 KB each.
+Grade 8 (the remaining jōyō kanji) is 70 pages — buildable, but left out of the pre-rendered set to keep the template picker usable.
 
 ## Install templates on the tablet
 
@@ -60,8 +64,8 @@ For other grades, add entries to `templates/manifest.json` (the `make_trace_shee
 
 ## Status
 
-Built and installed on an rM2 running firmware 3.25.1.1. Dictionary files are valid StarDict 2.4.2 and were
-spot-checked by index lookup; on-device lookup rendering was not part of the automated checks.
+Built and installed on an rM2 running firmware 3.25.1.1. Dictionaries were verified with real lookups through KOReader's bundled `sdcv`;
+see [docs/REVIEW.md](docs/REVIEW.md) for the adversarial review (defects found, fixes, and known limitations).
 Use at your own risk — editing the templates folder and running xovi are unsupported by reMarkable.
 
 ## Licenses and data attribution
@@ -70,4 +74,4 @@ Use at your own risk — editing the templates folder and running xovi are unsup
 - JMdict and KANJIDIC2 are © the Electronic Dictionary Research and Development Group, used under
   [CC BY-SA 4.0](https://www.edrdg.org/edrdg/licence.html). Dictionaries you build from them are derivative
   works under the same license. See [NOTICE](NOTICE).
-- Generated template images contain only glyph renderings and grid lines. Their glyphs come from whichever font you pass in; check that font's license before redistributing images (Noto CJK is SIL OFL 1.1).
+- Stroke templates in `templates/` are derived from KanjiVG and are therefore under **CC BY-SA 3.0** (attribution: KanjiVG, https://kanjivg.tagaini.net). The grid templates contain only lines.

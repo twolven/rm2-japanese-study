@@ -13,6 +13,8 @@ Notes from one working install. Everything is under `/home/root`, so it survives
 
 1. Back up `/home/root/.local/share/remarkable/xochitl/` and `/usr/share/remarkable/templates/` (e.g. `tar` over `ssh`), and compare file counts.
 2. Enable SSH key auth. Optional SSH over WLAN: `touch /home/root/.config/remarkable/rm_enable_ssh_wifi_marker && systemctl start dropbear-wlan.socket`.
+2b. Recommended — if you enabled WLAN SSH, disable password logins on it (the stock unit also allows blank passwords). Drop-in `/etc/systemd/system/dropbear-wlan@.service.d/no-password.conf`:
+   `[Service]` / `ExecStart=` / `ExecStart=-/usr/sbin/dropbear -G root -s -i -r /etc/dropbear/dropbear_ed25519_host_key`, then `systemctl daemon-reload`. Test key login first; USB keeps password login as a recovery path.
 3. Optional — stop OS auto-updates: `systemctl stop update-engine && systemctl disable update-engine`, plus a drop-in
    `/etc/systemd/system/update-engine.service.d/disable.conf` containing `[Unit]` / `ConditionPathExists=/nonexistent` (`systemctl mask` fails because a real unit file exists).
 4. Install Vellum: download `bootstrap.sh` from the [vellum-cli releases](https://github.com/vellum-dev/vellum-cli/releases), verify the SHA-256 listed in its README, read the script, then run it on the tablet.

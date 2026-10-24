@@ -32,6 +32,30 @@
     "name": "Katakana trace 3/3 (ム–ン)"
   },
   {
+    "filename": "Hiragana Voiced Trace 1",
+    "name": "Hiragana voiced trace 1/3 (が–ば)"
+  },
+  {
+    "filename": "Hiragana Voiced Trace 2",
+    "name": "Hiragana voiced trace 2/3 (び–ゃ)"
+  },
+  {
+    "filename": "Hiragana Voiced Trace 3",
+    "name": "Hiragana voiced trace 3/3 (ゅ–ゎ)"
+  },
+  {
+    "filename": "Katakana Voiced Trace 1",
+    "name": "Katakana voiced trace 1/3 (ガ–バ)"
+  },
+  {
+    "filename": "Katakana Voiced Trace 2",
+    "name": "Katakana voiced trace 2/3 (ビ–ャ)"
+  },
+  {
+    "filename": "Katakana Voiced Trace 3",
+    "name": "Katakana voiced trace 3/3 (ュ–ヮ)"
+  },
+  {
     "filename": "Kanji G1 Trace 1",
     "name": "Kanji G1 trace 1/5 (一–夕)"
   },
@@ -50,5 +74,249 @@
   {
     "filename": "Kanji G1 Trace 5",
     "name": "Kanji G1 trace 5/5 (花–森)"
+  },
+  {
+    "filename": "Kanji G2 Trace 1",
+    "name": "Kanji G2 trace 1/10 (刀–少)"
+  },
+  {
+    "filename": "Kanji G2 Trace 2",
+    "name": "Kanji G2 trace 2/10 (引–市)"
+  },
+  {
+    "filename": "Kanji G2 Trace 3",
+    "name": "Kanji G2 trace 3/10 (広–池)"
+  },
+  {
+    "filename": "Kanji G2 Trace 4",
+    "name": "Kanji G2 trace 4/10 (米–形)"
+  },
+  {
+    "filename": "Kanji G2 Trace 5",
+    "name": "Kanji G2 trace 5/10 (来–岩)"
+  },
+  {
+    "filename": "Kanji G2 Trace 6",
+    "name": "Kanji G2 trace 6/10 (店–春)"
+  },
+  {
+    "filename": "Kanji G2 Trace 7",
+    "name": "Kanji G2 trace 7/10 (昼–弱)"
+  },
+  {
+    "filename": "Kanji G2 Trace 8",
+    "name": "Kanji G2 trace 8/10 (時–雪)"
+  },
+  {
+    "filename": "Kanji G2 Trace 9",
+    "name": "Kanji G2 trace 9/10 (魚–数)"
+  },
+  {
+    "filename": "Kanji G2 Trace 10",
+    "name": "Kanji G2 trace 10/10 (新–顔)"
+  },
+  {
+    "filename": "Kanji G3 Trace 1",
+    "name": "Kanji G3 trace 1/13 (丁–打)"
+  },
+  {
+    "filename": "Kanji G3 Trace 2",
+    "name": "Kanji G3 trace 2/13 (氷–有)"
+  },
+  {
+    "filename": "Kanji G3 Trace 3",
+    "name": "Kanji G3 trace 3/13 (次–豆)"
+  },
+  {
+    "filename": "Kanji G3 Trace 4",
+    "name": "Kanji G3 trace 4/13 (身–幸)"
+  },
+  {
+    "filename": "Kanji G3 Trace 5",
+    "name": "Kanji G3 trace 5/13 (所–係)"
+  },
+  {
+    "filename": "Kanji G3 Trace 6",
+    "name": "Kanji G3 trace 6/13 (品–発)"
+  },
+  {
+    "filename": "Kanji G3 Trace 7",
+    "name": "Kanji G3 trace 7/13 (相–宮)"
+  },
+  {
+    "filename": "Kanji G3 Trace 8",
+    "name": "Kanji G3 trace 8/13 (島–院)"
+  },
+  {
+    "filename": "Kanji G3 Trace 9",
+    "name": "Kanji G3 trace 9/13 (動–転)"
+  },
+  {
+    "filename": "Kanji G3 Trace 10",
+    "name": "Kanji G3 trace 10/13 (進–着)"
+  },
+  {
+    "filename": "Kanji G3 Trace 11",
+    "name": "Kanji G3 trace 11/13 (短–意)"
+  },
+  {
+    "filename": "Kanji G3 Trace 12",
+    "name": "Kanji G3 trace 12/13 (感–横)"
+  },
+  {
+    "filename": "Kanji G3 Trace 13",
+    "name": "Kanji G3 trace 13/13 (箱–題)"
+  },
+  {
+    "filename": "Kanji G4 Trace 1",
+    "name": "Kanji G4 trace 1/13 (不–末)"
+  },
+  {
+    "filename": "Kanji G4 Trace 2",
+    "name": "Kanji G4 trace 2/13 (札–位)"
+  },
+  {
+    "filename": "Kanji G4 Trace 3",
+    "name": "Kanji G4 trace 3/13 (低–材)"
+  },
+  {
+    "filename": "Kanji G4 Trace 4",
+    "name": "Kanji G4 trace 4/13 (束–奈)"
+  },
+  {
+    "filename": "Kanji G4 Trace 5",
+    "name": "Kanji G4 trace 5/13 (季–英)"
+  },
+  {
+    "filename": "Kanji G4 Trace 6",
+    "name": "Kanji G4 trace 6/13 (阜–茨)"
+  },
+  {
+    "filename": "Kanji G4 Trace 7",
+    "name": "Kanji G4 trace 7/13 (要–案)"
+  },
+  {
+    "filename": "Kanji G4 Trace 8",
+    "name": "Kanji G4 trace 8/13 (梅–康)"
+  },
+  {
+    "filename": "Kanji G4 Trace 9",
+    "name": "Kanji G4 trace 9/13 (敗–景)"
+  },
+  {
+    "filename": "Kanji G4 Trace 10",
+    "name": "Kanji G4 trace 10/13 (最–順)"
+  },
+  {
+    "filename": "Kanji G4 Trace 11",
+    "name": "Kanji G4 trace 11/13 (飯–漁)"
+  },
+  {
+    "filename": "Kanji G4 Trace 12",
+    "name": "Kanji G4 trace 12/13 (熊–養)"
+  },
+  {
+    "filename": "Kanji G4 Trace 13",
+    "name": "Kanji G4 trace 13/13 (機–議)"
+  },
+  {
+    "filename": "Kanji G5 Trace 1",
+    "name": "Kanji G5 trace 1/13 (久–示)"
+  },
+  {
+    "filename": "Kanji G5 Trace 2",
+    "name": "Kanji G5 trace 2/13 (仮–応)"
+  },
+  {
+    "filename": "Kanji G5 Trace 3",
+    "name": "Kanji G5 trace 3/13 (快–枝)"
+  },
+  {
+    "filename": "Kanji G5 Trace 4",
+    "name": "Kanji G5 trace 4/13 (武–独)"
+  },
+  {
+    "filename": "Kanji G5 Trace 5",
+    "name": "Kanji G5 trace 5/13 (祖–粉)"
+  },
+  {
+    "filename": "Kanji G5 Trace 6",
+    "name": "Kanji G5 trace 6/13 (素–得)"
+  },
+  {
+    "filename": "Kanji G5 Trace 7",
+    "name": "Kanji G5 trace 7/13 (情–規)"
+  },
+  {
+    "filename": "Kanji G5 Trace 8",
+    "name": "Kanji G5 trace 8/13 (設–程)"
+  },
+  {
+    "filename": "Kanji G5 Trace 9",
+    "name": "Kanji G5 trace 9/13 (税–損)"
+  },
+  {
+    "filename": "Kanji G5 Trace 10",
+    "name": "Kanji G5 trace 10/13 (準–歴)"
+  },
+  {
+    "filename": "Kanji G5 Trace 11",
+    "name": "Kanji G5 trace 11/13 (演–確)"
+  },
+  {
+    "filename": "Kanji G5 Trace 12",
+    "name": "Kanji G5 trace 12/13 (編–識)"
+  },
+  {
+    "filename": "Kanji G5 Trace 13",
+    "name": "Kanji G5 trace 13/13 (護–護)"
+  },
+  {
+    "filename": "Kanji G6 Trace 1",
+    "name": "Kanji G6 trace 1/12 (亡–吸)"
+  },
+  {
+    "filename": "Kanji G6 Trace 2",
+    "name": "Kanji G6 trace 2/12 (存–私)"
+  },
+  {
+    "filename": "Kanji G6 Trace 3",
+    "name": "Kanji G6 trace 3/12 (系–担)"
+  },
+  {
+    "filename": "Kanji G6 Trace 4",
+    "name": "Kanji G6 trace 4/12 (拝–洗)"
+  },
+  {
+    "filename": "Kanji G6 Trace 5",
+    "name": "Kanji G6 trace 5/12 (派–将)"
+  },
+  {
+    "filename": "Kanji G6 Trace 6",
+    "name": "Kanji G6 trace 6/12 (展–陛)"
+  },
+  {
+    "filename": "Kanji G6 Trace 7",
+    "name": "Kanji G6 trace 7/12 (除–視)"
+  },
+  {
+    "filename": "Kanji G6 Trace 8",
+    "name": "Kanji G6 trace 8/12 (訪–棒)"
+  },
+  {
+    "filename": "Kanji G6 Trace 9",
+    "name": "Kanji G6 trace 9/12 (痛–署)"
+  },
+  {
+    "filename": "Kanji G6 Trace 10",
+    "name": "Kanji G6 trace 10/12 (聖–認)"
+  },
+  {
+    "filename": "Kanji G6 Trace 11",
+    "name": "Kanji G6 trace 11/12 (誤–憲)"
+  },
+  {
+    "filename": "Kanji G6 Trace 12",
+    "name": "Kanji G6 trace 12/12 (操–警)"
   }
 ]

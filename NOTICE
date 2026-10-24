@@ -6,3 +6,6 @@ This project builds on data from the Electronic Dictionary Research and Developm
 Both are licensed under the Creative Commons Attribution-ShareAlike 4.0 license
 (https://www.edrdg.org/edrdg/licence.html). The scripts in this repository only convert the
 upstream files; dictionaries produced from them remain under CC BY-SA 4.0.
+
+Stroke-order sheets in templates/ are derived from KanjiVG (https://kanjivg.tagaini.net),
+(c) Ulrich Apel and contributors, licensed under CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/).
