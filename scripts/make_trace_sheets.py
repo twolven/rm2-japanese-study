@@ -12,15 +12,20 @@ Add --manifest templates/manifest.json to register the pages for scripts/add_tem
 --font is only used for the small stroke numbers; any font with digits works.
 """
 import argparse, gzip, json, math, os, re, zipfile
+import sys
 import xml.etree.ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from kana2romaji import to_romaji
 
 W, H, CELL, COLS, ROWS = 1404, 1872, 216, 6, 8
 PER_PAGE = ROWS * COLS // 3
 BORDER, GUIDE, MODEL, TRACE = 90, 170, 85, 200
 SS = 3                       # supersampling factor for smooth strokes
 BOX = 109.0                  # KanjiVG coordinate box
-GLYPH = 176                  # glyph box in px inside a 216 px cell
+GLYPH = 152                  # glyph box in px inside a 216 px cell (room left below for a label)
+TOP = 10                     # px from cell top to glyph box
 STROKE_W = 7.5               # px, in output scale
 
 HIRA = list("あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん")
@@ -107,14 +112,28 @@ def load_kanjivg(path, wanted):
 
 
 def kanji_for_grade(path, grade):
-    out = []
+    out, MEANINGS = [], {}
     with gzip.open(path, "rb") as f:
         for _, el in ET.iterparse(f):
             if el.tag == "character":
                 if el.findtext("misc/grade") == str(grade):
-                    out.append((int(el.findtext("misc/stroke_count") or 99), el.findtext("literal")))
+                    lit = el.findtext("literal")
+                    out.append((int(el.findtext("misc/stroke_count") or 99), lit))
+                    ms = [m.text for m in el.iterfind("reading_meaning/rmgroup/meaning") if m.text]
+                    MEANINGS[lit] = "; ".join(ms[:2]) if len("; ".join(ms[:2])) <= 18 else (ms[0] if ms else "")
                 el.clear()
-    return [c for _, c in sorted(out)]  # simpler kanji first
+    return [c for _, c in sorted(out)], MEANINGS  # simpler kanji first
+
+
+def kana_label(ch):
+    h = chr(ord(ch) - 0x60) if "ァ" <= ch <= "ヶ" else ch
+    special = {"は": "ha (wa)", "へ": "he (e)", "を": "o (wo)"}
+    if h in special:
+        return special[h]
+    r = to_romaji(ch)
+    if h in "ぁぃぅぇぉゃゅょゎ":
+        return "small " + r
+    return "small tsu" if h == "っ" else r
 
 
 def stroke_mask(strokes, width):
@@ -123,10 +142,10 @@ def stroke_mask(strokes, width):
     m = Image.new("L", (size, size), 0)
     d = ImageDraw.Draw(m)
     k = GLYPH / BOX * SS
-    off = (size - BOX * k) / 2
+    offx, offy = (size - BOX * k) / 2, TOP * SS
     r = width * SS / 2
     for pts in strokes:
-        xy = [(off + x * k, off + y * k) for x, y in pts]
+        xy = [(offx + x * k, offy + y * k) for x, y in pts]
         d.line(xy, fill=255, width=int(width * SS), joint="curve")
         for x, y in (xy[0], xy[-1]):  # round caps
             d.ellipse([x - r, y - r, x + r, y + r], fill=255)
@@ -143,7 +162,7 @@ def dashed(d, p0, p1, fill):
             d.line([(x, y0), (min(x + 8, x1), y0)], fill=fill, width=2)
 
 
-def page(chars, vg, numfont):
+def page(chars, vg, numfont, labels, labfont):
     img = Image.new("L", (W, H), 255)
     d = ImageDraw.Draw(img)
     x0, y0 = (W - COLS * CELL) // 2, (H - ROWS * CELL) // 2
@@ -158,7 +177,7 @@ def page(chars, vg, numfont):
         d.line([(x0, y0 + i * CELL), (x0 + COLS * CELL, y0 + i * CELL)], fill=BORDER, width=3)
     d.line([(x0 + 3 * CELL, y0), (x0 + 3 * CELL, y0 + ROWS * CELL)], fill=BORDER, width=6)
     k = GLYPH / BOX
-    off = (CELL - BOX * k) / 2
+    offx, offy = (CELL - BOX * k) / 2, TOP
     for n, ch in enumerate(chars):
         r, half = divmod(n, 2)
         cx, cy = x0 + half * 3 * CELL, y0 + r * CELL
@@ -167,8 +186,13 @@ def page(chars, vg, numfont):
         img.paste(MODEL, (cx, cy), mask)
         img.paste(TRACE, (cx + CELL, cy), mask)
         for num, nx, ny in numbers:  # stroke-order numbers with a white halo
-            d.text((cx + off + nx * k, cy + off + ny * k), str(num), font=numfont, fill=0,
+            d.text((cx + offx + nx * k, cy + offy + ny * k), str(num), font=numfont, fill=0,
                    anchor="mm", stroke_width=3, stroke_fill=255)
+        lab, f = labels.get(ch, ""), labfont
+        while lab and d.textlength(lab, font=f) > CELL - 14 and f.size > 12:  # shrink long labels to fit
+            f = ImageFont.truetype(f.path, f.size - 1)
+        if lab:
+            d.text((cx + CELL // 2, cy + CELL - 20), lab, font=f, fill=30, anchor="mm")
     return img
 
 
@@ -182,26 +206,32 @@ ap.add_argument("--kanjidic")
 ap.add_argument("--manifest")
 a = ap.parse_args()
 
+labels = {}
 if a.set == "hiragana": chars, label, slug = HIRA, "Hiragana trace", "Hiragana Trace"
 elif a.set == "hiragana-voiced": chars, label, slug = HIRA_V, "Hiragana voiced trace", "Hiragana Voiced Trace"
 elif a.set == "katakana": chars, label, slug = kata(HIRA), "Katakana trace", "Katakana Trace"
 elif a.set == "katakana-voiced": chars, label, slug = kata(HIRA_V), "Katakana voiced trace", "Katakana Voiced Trace"
 else:
-    chars, label, slug = kanji_for_grade(a.kanjidic, a.grade), "Kanji G%d trace" % a.grade, "Kanji G%d Trace" % a.grade
+    chars, meanings = kanji_for_grade(a.kanjidic, a.grade)
+    label, slug = "Kanji G%d trace" % a.grade, "Kanji G%d Trace" % a.grade
+    labels = meanings
 
+if a.set != "kanji":
+    labels = {c: kana_label(c) for c in chars}
 vg = load_kanjivg(a.kanjivg, chars)
 missing = [c for c in chars if c not in vg]
 if missing:
     print("warning: not in KanjiVG, skipped:", "".join(missing))
     chars = [c for c in chars if c in vg]
 numfont = ImageFont.truetype(a.font, 22)
+labfont = ImageFont.truetype(a.font, 26)
 os.makedirs(a.out, exist_ok=True)
 entries = []
 pages = [chars[i:i + PER_PAGE] for i in range(0, len(chars), PER_PAGE)]
 for i, ch in enumerate(pages, 1):
     fn = "%s %d" % (slug, i)
     # the rM2 panel shows 16 gray levels; posterizing halves the PNG size (matters: the system partition is small)
-    page(ch, vg, numfont).point(lambda v: min(255, round(v / 17) * 17)).save(os.path.join(a.out, fn + ".png"), optimize=True)
+    page(ch, vg, numfont, labels, labfont).point(lambda v: min(255, round(v / 17) * 17)).save(os.path.join(a.out, fn + ".png"), optimize=True)
     entries.append({"filename": fn, "name": "%s %d/%d (%s–%s)" % (label, i, len(pages), ch[0], ch[-1])})
     print("%s\t%s" % (fn, entries[-1]["name"]))
 if a.manifest:

@@ -13,6 +13,7 @@ and against the source data. "Fixed" items were fixed in the same pass.
 | 4 | **Tracing sheets taught the wrong shapes.** A gothic font draws さ, き, ふ, り with disconnected strokes unlike handwriting, and there was no stroke order. | Visual inspection of the rendered sheet. | Rebuilt from KanjiVG stroke vectors: stroke-by-stroke rendering with KanjiVG's own stroke-order numbers. |
 | 5 | **SSH over WLAN accepted root password login** (and the stock unit passes `-B`, which allows blank passwords). The tablet password had been shared in a chat session. | Read the dropbear unit; key auth was already installed. | WLAN-only drop-in disables password auth (`dropbear -s`). Verified: key login works, password login over WLAN is refused. The USB service is untouched as a recovery path. |
 | 6 | **System partition nearly full** (92%, 20 MB free); the first stroke-order sheets were ~133 KB each. | `df` on the device. | PNGs posterized to 16 gray levels (the panel's depth): ~62 KB each. 80 templates use ~5 MB; ~15.7 MB stays free. |
+| 7 | **Built for someone who already reads kana.** Dictionary readings were kana only, tracing sheets had no labels, and the sample book was plain Japanese. A complete beginner could use none of it. | User feedback. | New `kana2romaji.py`; romaji beside every JMdict/KANJIDIC reading; tracing sheets labelled (romaji for kana, English meaning for kanji, particle readings は/へ/を flagged); a beginner's first-words book with romaji + English. |
 
 ## Verified
 

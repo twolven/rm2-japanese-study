@@ -5,6 +5,9 @@ usage: build_kanjidic_stardict.py kanjidic2.xml.gz OUTDIR
 import gzip, html, os, struct, sys
 import xml.etree.ElementTree as ET
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from kana2romaji import to_romaji
+
 src, outdir = sys.argv[1], sys.argv[2]
 os.makedirs(outdir, exist_ok=True)
 name = "KANJIDIC2-en"
@@ -39,8 +42,11 @@ with gzip.open(src, "rb") as f:
         h = ["<b>%s</b> " % html.escape(lit)]
         if facts:
             h.append("<small>%s</small><br>" % html.escape(" · ".join(facts)))
-        if on:   h.append("音: %s<br>" % html.escape("、".join(on)))
-        if kun:  h.append("訓: %s<br>" % html.escape("、".join(kun)))
+        def rd(x):  # "た.べる" -> "た.べる (ta.beru)"; "-" marks affixes
+            r = ".".join(to_romaji(seg) for seg in x.replace("-", "").split("."))
+            return "%s (%s)" % (x, r.lower())
+        if on:   h.append("音 on: %s<br>" % html.escape("、".join(rd(x) for x in on)))
+        if kun:  h.append("訓 kun: %s<br>" % html.escape("、".join(rd(x) for x in kun)))
         if mean: h.append(html.escape("; ".join(mean)))
         entries.append((lit, "".join(h).encode("utf-8")))
         el.clear()

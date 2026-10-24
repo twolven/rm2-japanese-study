@@ -5,10 +5,14 @@ usage: build_jmdict_stardict.py JMdict_e.gz OUTDIR
 - Entries sharing a headword are ordered by commonness (JMdict priority tags), so a tap on か み
   shows 紙 / 神 / 髪 before obscure homographs.
 - Part-of-speech tags are shortened and shown only when they change between senses.
+- Readings are followed by romaji (as typed: とうきょう -> toukyou) for beginners.
 - Full-width / half-width headword variants also get an NFKC alias (ＣＤ is also findable as CD).
 """
 import gzip, html, os, re, struct, sys, unicodedata
 import xml.etree.ElementTree as ET
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from kana2romaji import to_romaji
 
 src, outdir = sys.argv[1], sys.argv[2]
 os.makedirs(outdir, exist_ok=True)
@@ -47,8 +51,10 @@ with gzip.open(src, "rb") as f:
         parts = ["<b>%s</b>" % html.escape(head)]
         if score == 0:
             parts.append(" ★")
+        rom = " / ".join(dict.fromkeys(to_romaji(x) for x in rebs[:3]))
         if kebs:
             parts.append(" 【%s】" % html.escape("、".join(rebs)))
+        parts.append(" <b>%s</b>" % html.escape(rom))
         parts.append("<ol>")
         prev_pos = None
         for s in el.findall("sense"):

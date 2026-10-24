@@ -4,12 +4,12 @@ Tools for studying Japanese on a reMarkable 2 running [xovi](https://github.com/
 [AppLoad](https://github.com/asivery/rm-appload) + [KOReader](https://github.com/koreader/koreader):
 
 - **Dictionaries for KOReader tap-to-lookup** — build StarDict files from the official EDRDG data
-  - `build_jmdict_stardict.py` — JMdict (words, ~219k entries; common words first, ★-marked)
-  - `build_kanjidic_stardict.py` — KANJIDIC2 (single kanji: on/kun readings, meanings, strokes, grade, JLPT)
+  - `build_jmdict_stardict.py` — JMdict (words, ~219k entries; common words first, ★-marked; readings shown with romaji)
+  - `build_kanjidic_stardict.py` — KANJIDIC2 (single kanji: on/kun readings with romaji, meanings, strokes, grade, JLPT)
 - **Notebook templates** (1404×1872 grayscale PNG, the rM2 resolution)
   - kana practice grid (large squares, dashed centre guides)
   - genkō yōshi manuscript paper (20×20 with centre gutter)
-  - stroke-order tracing sheets: hiragana, katakana, and kanji by school grade (model with stroke numbers → faint trace → blank)
+  - stroke-order tracing sheets: hiragana, katakana, and kanji by school grade (model with stroke numbers → faint trace → blank), each model labelled with its romaji (kana) or English meaning (kanji) — built for complete beginners
 - **Setup notes** for the xovi / Vellum / KOReader stack on firmware 3.25.x — [docs/SETUP.md](docs/SETUP.md)
 
 Pre-rendered templates (kana, voiced kana, kanji grades 1–6) are in [`templates/`](templates/).
@@ -30,12 +30,13 @@ python scripts/build_kanjidic_stardict.py  kanjidic2.xml.gz out/KANJIDIC2-en
 
 Copy each output folder into KOReader's `data/dict/` directory and restart KOReader.
 KOReader's bundled Japanese plugin handles deinflection (食べました → 食べる).
+Romaji is written as typed, without macrons (とうきょう → toukyou); `scripts/kana2romaji.py` is the shared converter (run it to execute its self-test).
 
 ## Build templates
 
 Stroke shapes and stroke order come from [KanjiVG](https://kanjivg.tagaini.net) (CC BY-SA 3.0).
 Download the **`kanjivg-*-main.zip`** asset from the [latest release](https://github.com/KanjiVG/kanjivg/releases/latest)
-(the combined `.xml.gz` has no stroke-number positions). `--font` is only used for the small stroke numbers; any font with digits works.
+(the combined `.xml.gz` has no stroke-number positions). `--font` is only used for the small stroke numbers and labels; use a font with Latin letters (e.g. Noto Sans CJK JP).
 
 ```sh
 python scripts/make_practice_grids.py templates/                       # kana grid + genkō yōshi
